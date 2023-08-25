@@ -43,3 +43,6 @@ export const Application:FC = () => {
 ## Why important use redux-reduce - without redux
 
 ... I can show hyper-state capability by with a simple game
+
+## npm package create with vite: 
+[creating-a-typescript-library-with-vite](https://onderonur.netlify.app/blog/creating-a-typescript-library-with-vite/)
