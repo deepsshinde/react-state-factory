@@ -1,7 +1,12 @@
 {
-  "name": "vite-foo-lib",
+  "name": "hyper-state",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "author": {
+    "name": "Peter Vivo",
+    "email": "vivo.peter@protonmail.com"
+  },
+  "description": "react state handling helper based on useReducer and typescript",
   "type": "module",
   "scripts": {
     "dev": "vite",
