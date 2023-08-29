@@ -46,3 +46,11 @@ export const Application:FC = () => {
 
 ## npm package create with vite: 
 [creating-a-typescript-library-with-vite](https://onderonur.netlify.app/blog/creating-a-typescript-library-with-vite/)
+
+## npm local test
+
+https://dev.to/scooperdev/use-npm-pack-to-test-your-packages-locally-486e
+
+```sh
+npm pack --pack-destination ~
+```
