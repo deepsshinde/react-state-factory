@@ -6,8 +6,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'hyper-state',
-      fileName: 'hyper-state',
+      name: 'type-state',
+      fileName: 'type-state',
     },
   },
   plugins: [dts()],
