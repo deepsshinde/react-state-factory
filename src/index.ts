@@ -1,3 +1,3 @@
-export { typedActionMapFactory } from "./typed-state";
+export { typedActionMapFactory } from "./typerdux";
 
-export { typedPutActionMapFactory } from "./typed-state";
+export { typedPutActionMapFactory } from "./typerdux";

@@ -1,4 +1,4 @@
-# typed-state
+# typerdux
 react state handling helper based on useReducer and typescript
 
 ![explore-the-hyper-state](documentation/images/explore-the-hyper-state.jpg)
@@ -9,13 +9,13 @@ This minimal library will help to organize mid complex state handling under with
 
 ```tsx
 import { FC, useEffect } from 'react';
-import { useTypedState } from 'typed-state';
+import { useTyperdux } from 'typerdux';
 import { Actions, defaultState } from '@declaration/appState';
 import { appReducer } from '@code/appReducer';
 import { appSaga } from '@code/appSaga';
 
 export const Application:FC = () => {
-  const [state, actions] = useTypedState<Actions>(
+  const [state, actions] = useTyperdux<Actions>(
     appReducer,
     defaultState,
     appSaga // optional
@@ -42,7 +42,7 @@ export const Application:FC = () => {
 
 ## Why important use redux-reduce - without redux
 
-... I can show typed-state capability by with a simple game
+... I can show `typerdux` capability by with a simple game
 
 ## npm package create with vite: 
 [creating-a-typescript-library-with-vite](https://onderonur.netlify.app/blog/creating-a-typescript-library-with-vite/)

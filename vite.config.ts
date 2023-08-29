@@ -6,8 +6,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'typed-state',
-      fileName: 'typed-state',
+      name: 'typerdux',
+      fileName: 'typerdux',
     },
   },
   plugins: [dts()],
