@@ -1,39 +1,51 @@
 # typerdux
+> Under development!
 react state handling helper based on useReducer and typescript
-> maybe the final name will be `state-actions` also need to clerify each export short name
-
-![explore-the-hyper-state](documentation/images/explore-the-hyper-state.jpg)
+> maybe the final name will be something else
 
 This minimal library will help to organize mid complex state handling under with type guarded dispatch capable actions.
 
+## install
+
+```sh
+pnpm add typerdux
+```
+
 ## example
 
-```tsx
-import { FC, useEffect } from 'react';
-import { useTyperdux } from 'typerdux';
-import { Actions, defaultState } from '@declaration/appState';
-import { appReducer } from '@code/appReducer';
-import { appSaga } from '@code/appSaga';
+> Declare the set of actions with their types
+```ts
+// actions.ts
 
-export const Application:FC = () => {
-  const [state, actions] = useTyperdux<Actions>(
-    appReducer,
-    defaultState,
-    appSaga // optional
-  );
+export enum actions {
+  START_APPLICATION = "START_APPLICATION",
+  PLACE_CONTENT = "PLACE_CONTENT",
+  ADD_ITEM = "ADD_ITEM",
+}
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      actions.CHANGE_FOO('... foo is changed after 2 sec');
-    }, 2000);
-    return () => clearTimer(timer);
-  }, []);
+export type ActionTypes =
+  | { type: actions.START_APPLICATION, payload: {start: number, id: string } }
+  | { type: actions.PLACE_CONENT, payload: number[] }
+  | { type: actions.ADD_ITEM, payload: number };
+```
 
-  return (
-    <main>
-      <pre>{JSON.stringify(state), null, 2)</pre>
-    </main>
-  );
+> Example of use in saga
+```ts
+// exampleGenerator.ts
+
+import { typedPutActionMapFactory } from 'typerdux';
+import { actions, ActionTypes } from './actions;
+
+
+const run = typedPutActionMapFactory<typeof actions, AppActions>(actions);
+
+export function * exampleGenerator() {
+  yield run.START_APPLICATION({
+    start: Date.now(), 
+    id: Math.random().toString(32).slice(-8)
+  });
+  yield run.PLACE_CONENT([87, 45, 23, 12]);
+  yield run.ADD_ITEM(42);
 }
 ```
 

@@ -1,9 +1,10 @@
 {
   "name": "typerdux",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "react state handling helper based on useReducer and typescript",
   "author": "Peter Vivo <vivo.peter@protonmail.com>",
   "license": "MIT",
+  "main": "dist/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
