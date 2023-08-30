@@ -1,5 +1,6 @@
 # typerdux
 react state handling helper based on useReducer and typescript
+> maybe the final name will be `state-actions` also need to clerify each export short name
 
 ![explore-the-hyper-state](documentation/images/explore-the-hyper-state.jpg)
 
