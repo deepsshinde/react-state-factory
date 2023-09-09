@@ -1,6 +1,6 @@
 {
   "name": "typerdux",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "react state handling helper based on useReducer and typescript",
   "author": "Peter Vivo <vivo.peter@protonmail.com>",
   "license": "MIT",

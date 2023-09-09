@@ -52,43 +52,17 @@ export function * exampleGenerator() {
 ## Fun-Functions test 
 
 ```tsx
-import { FC, Reducer, useEffect, useMemo } from "react";
-import { typedActionMapFactory } from "typerdux";
-// @ts-ignore
-import { Saga } from "redux-saga/effects";
-import { gameSaga } from "../definitions/gameSaga";
-import { GameActions, GameState, game, initialTable } from "../definitions/formulaTroll";
-import { gameReducer } from "../definitions/gameReducer";
-import useSagaReducer from "use-saga-reducer";
-import { CardView } from "../components/CardView";
+export const FunFunction: FC = () => {
 
-
-export const Multiplayer: FC = () => {
-
-  const [_state_, dispatch] = useSagaReducer<Saga<GameActions>, Reducer<GameState, GameActions>, GameState>(gameSaga, gameReducer, initialTable);
-  const actions = useMemo(() => typedActionMapFactory<typeof game, GameActions>(game, dispatch), [dispatch]);
-  const state = _state_ as GameState;
+  const [state, put] = useSagaFactory(gameReducer, initialTable, game, gameSaga);
 
   useEffect(() => {
-    console.log('-- effect by actions --');
     actions.LETS_PLAY(true);
   }, [actions]);
 
   return (
-    <main className="bg-black text-white  min-h-screen grid place-items-center relative">
-      <section className="m-4">
-
-        <section className={`min-w-screen grid grid-cols-2 gap-4`}>
-        {state.players.map(
-          (({deck, id}) => (
-            <section className="w-[200px] grid gap-4" key={id}>
-              {deck.map((card) => <CardView {...card} key={id+card.id} />)}
-            </section>
-          ))
-        )}
-        </section>
-      </section>
-      {/* <code>{JSON.stringify(state?.grand?.[1], null, 2)}</code> */}
+    <main className="bg-black text-green-400 min-h-screen grid place-items-center relative">
+      <pre>{JSON.stringify(state, null, 2)}</pre>
     </main>
   );
 }
