@@ -1,4 +1,4 @@
-import { Dispatch, useMemo } from "react";
+import { Dispatch, useMemo, useReducer } from "react";
 // @ts-ignore
 import { put, Saga } from "redux-saga/effects";
 import useSagaReducer from "use-saga-reducer";
@@ -45,7 +45,22 @@ export function typedPutActionMapFactory<
   }), {} as TypedGeneratorMap<EM, AM>);
 }
 
-export type UseSagaReturn<ST, Put> = [state: ST, put: Put];
+export type UseFactoryReturn<ST, Put> = [state: ST, put: Put];
+
+export const useStateFactory = <
+  AM, 
+  ST,
+  PT extends Record<string, string>,
+>(
+  reducer: (st: ST, action: AM) => ST,
+  initialState: ST,
+  labels: PT,
+)  => {
+  type SagaResult = [state: ST, dispatch: Dispatch<AM>];
+  const [state, dispatch]: SagaResult = useReducer(reducer, initialState);
+  const put = useMemo(() => typedActionMapFactory(labels, dispatch), [dispatch, labels]);
+  return [state, put] as UseFactoryReturn<ST, TypedActionMap<PT, AM>>;
+};
 
 export const useSagaFactory = <
   AM, 
@@ -60,5 +75,5 @@ export const useSagaFactory = <
   type SagaResult = [state: ST, dispatch: Dispatch<AM>];
   const [state, dispatch]: SagaResult = useSagaReducer(saga, reducer, initialState);
   const put = useMemo(() => typedActionMapFactory(labels, dispatch), [dispatch, labels]);
-  return [state, put] as UseSagaReturn<ST, TypedActionMap<PT, AM>>;
+  return [state, put] as UseFactoryReturn<ST, TypedActionMap<PT, AM>>;
 };
