@@ -1,14 +1,14 @@
-# typerdux
+# react-state-factory
 > Under development!
+
 react state handling helper based on useReducer and typescript
-> maybe the final name will be something else
 
 This minimal library will help to organize mid complex state handling under with type guarded dispatch capable actions.
 
 ## install
 
 ```sh
-pnpm add typerdux
+pnpm add react-state-factory
 ```
 
 ## example
@@ -33,7 +33,7 @@ export type ActionTypes =
 ```ts
 // exampleGenerator.ts
 
-import { typedPutActionMapFactory } from 'typerdux';
+import { typedPutActionMapFactory } from 'react-state-factory';
 import { actions, ActionTypes } from './actions;
 
 
@@ -67,17 +67,6 @@ export const FunFunction: FC = () => {
   );
 }
 ```
-
-## Behind the scene
-
-... short description about implementation
-
-## Why important use redux-reduce - without redux
-
-... I can show `typerdux` capability by with a simple game
-
-## npm package create with vite: 
-[creating-a-typescript-library-with-vite](https://onderonur.netlify.app/blog/creating-a-typescript-library-with-vite/)
 
 ## npm local test
 

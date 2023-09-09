@@ -1,11 +1,11 @@
 {
-  "name": "typerdux",
-  "version": "0.0.7",
+  "name": "react-state-factory",
+  "version": "0.0.1",
   "description": "react state handling helper based on useReducer and typescript",
   "author": "Peter Vivo <vivo.peter@protonmail.com>",
   "license": "MIT",
   "main": "dist/index.d.js",
-  "module": "dist/typerdux.umd.js",
+  "module": "dist/react-state-factory.umd.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
