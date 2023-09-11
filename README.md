@@ -163,9 +163,7 @@ MIT
 
 ---
 
-Make sure to adapt the `initialState` and `reducer` in the `SimpleComponent` example to your needs. Also, you might want to add more details to the `Contribution` section, like code style, tests, etc.
-
-## npm local test
+## npm local test - keep remember
 
 https://dev.to/scooperdev/use-npm-pack-to-test-your-packages-locally-486e
 
