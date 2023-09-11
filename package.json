@@ -1,11 +1,12 @@
 {
   "name": "react-state-factory",
-  "version": "0.0.1",
-  "description": "react state handling helper based on useReducer and typescript",
+  "version": "0.0.2",
+  "description": "react minimal typesafe state handling even with saga",
   "author": "Peter Vivo <vivo.peter@protonmail.com>",
   "license": "MIT",
   "main": "dist/index.d.js",
-  "module": "dist/react-state-factory.umd.js",
+  "module": "dist/react-state-factory.mjs",
+  "umd:module": "dist/react-state-factory.umd.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -13,11 +14,14 @@
     "preview": "vite preview"
   },
   "peerDependencies": {
-    "react": ">=17.0.0 <19.0.0",
+    "react": ">=16.0.0 <19.0.0",
     "redux-saga": "^1.2.3",
     "use-saga-reducer": "^3.0.0"
   },
   "devDependencies": {
+    "react": "^16.0.0",
+    "redux-saga": "^1.2.3",
+    "use-saga-reducer": "^3.0.0",
     "@types/node": "^20.5.7",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
