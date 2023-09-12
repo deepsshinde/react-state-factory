@@ -8,6 +8,10 @@ export type ActionType<T> = T extends { type: infer U, payload: infer P }
   ? { type: U, payload: P } 
   : never;
 
+export type Labels<AM extends Record<string, any>> = {
+  [K in AM['type']]: K
+}
+
 export type TypedActionMap<EnumType extends Record<string, string>, UnionType> = {
   [T in keyof EnumType]: 
     (payload: Extract<ActionType<UnionType>, { type: T }>["payload"]) 
