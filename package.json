@@ -1,6 +1,6 @@
 {
   "name": "react-state-factory",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "react minimal typesafe state handling even with saga",
   "author": "Peter Vivo <vivo.peter@protonmail.com>",
   "license": "MIT",

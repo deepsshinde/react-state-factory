@@ -1,6 +1,4 @@
 # react-state-factory
-> Under development!
-
 react-state-factory is a minimalist library that helps organize mid-complex state handling with type-guarded dispatch-capable actions. It leverages `useReducer` and TypeScript to bring type safety and structure to your application's state management.
 
 ## Installation
@@ -159,6 +157,10 @@ Creates a `state` and a `put` function.
 
 Returns an array with the `state` and the `put` function.
 
+## Discuss
+
+[Simplify your React state management with react-state-factory on dev.to](https://dev.to/pengeszikra/simplify-your-react-state-management-with-react-state-factory-4a14)
+
 ## Contribution
 
 If you want to contribute to this project, please fork the repository, create a new branch for your work, and open a pull request.
@@ -167,9 +169,8 @@ If you want to contribute to this project, please fork the repository, create a 
 
 MIT
 
----
-
-## npm local test - keep remember
+### npm local test
+This is help a lot under npm module development
 
 https://dev.to/scooperdev/use-npm-pack-to-test-your-packages-locally-486e
 

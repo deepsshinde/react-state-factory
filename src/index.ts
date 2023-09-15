@@ -1,6 +1,6 @@
 import { Dispatch, useMemo, useReducer } from "react";
-// @ts-ignore
-import { put, Saga } from "redux-saga/effects";
+import { Saga } from "redux-saga";
+import { put } from "redux-saga/effects";
 import useSagaReducer from "use-saga-reducer";
 
 
@@ -23,7 +23,6 @@ export type TypedGeneratorMap<EnumType extends Record<string, string>, UnionType
     (payload: Extract<ActionType<UnionType>, { type: T }>["payload"]) 
     => Generator;
 };
-
 
 export function typedActionMapFactory<
   EM extends Record<string, string>, 
