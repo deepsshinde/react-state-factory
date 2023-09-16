@@ -1,12 +1,10 @@
 {
   "name": "react-state-factory",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "react minimal typesafe state handling even with saga",
   "author": "Peter Vivo <vivo.peter@protonmail.com>",
   "license": "MIT",
-  "main": "dist/index.d.ts",
-  "jsnext:main": "dist/react-state-factory.mjs",
-  "types": "dist/index.d.ts",
+  "main": "dist/react-state-factory.js",
   "module": "dist/react-state-factory.mjs",
   "umd:module": "dist/react-state-factory.umd.js",
   "scripts": {
