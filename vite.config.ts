@@ -8,19 +8,20 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'react-state-factory',
-      formats: ['es', 'cjs', 'umd']
+      formats: ['es', 'cjs', 'umd'],
     },
     rollupOptions: {
       // ensure that external packages are not bundled
       external: ['react', 'use-saga-reducer', 'redux-saga'],
       output: {
+        entryFileNames: 'react-state-factory.[format].js',
         globals: {
           react: 'React',
           'use-saga-reducer': 'useSagaReducer',
           'redux-saga/effects': 'put'
         }
       }
-    }
+    },
   },
   plugins: [dts()],
 });
