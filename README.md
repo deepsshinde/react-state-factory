@@ -5,12 +5,10 @@ react-state-factory is a minimalist library that helps organize mid-complex stat
 
 ```sh
 npm add react-state-factory
-```
-
-or if you use yarn:
-
-```sh
+# or yarn
 yarn add react-state-factory
+# or pnpm
+pnpm add react-state-factory
 ```
 
 need to be sure the following package is need to installed: 
@@ -114,15 +112,22 @@ In this example, `typedPutActionMapFactory` is used to create a `run` function, 
 ### `useStateFactory`
 
 ```ts
-function useStateFactory<
-  AM, 
+export const useStateFactory = <
+  AM extends ActionType<any>, 
   ST,
-  PT extends Record<string, string>,
+  PT extends Labels<AM>,
 >(
   reducer: (st: ST, action: AM) => ST,
   initialState: ST,
   labels: PT,
-): UseFactoryReturn<ST, TypedActionMap<PT, AM>>
+)  => {
+  type SagaResult = [state: ST, dispatch: Dispatch<AM>];
+  const [state, dispatch]: SagaResult = useReducer(reducer, initialState);
+  const put = useMemo(
+    () => typedActionMapFactory(labels, dispatch), [dispatch, labels]
+  );
+  return [state, put] as UseFactoryReturn<ST, TypedActionMap<AM, PT>>;
+};
 ```
 
 Creates a `state` and a `put` function.
@@ -136,16 +141,23 @@ Returns an array with the `state` and the `put` function.
 ### `useSagaFactory`
 
 ```ts
-function useSagaFactory<
-  AM, 
+export const useSagaFactory = <
+  AM extends ActionType<any>, 
   ST,
-  PT extends Record<string, string>,
+  PT extends Labels<AM>,
 >(
   reducer: (st: ST, action: AM) => ST,
   initialState: ST,
   labels: PT,
   saga: Saga,
-): UseFactoryReturn<ST, TypedActionMap<PT, AM>>
+)  => {
+  type SagaResult = [state: ST, dispatch: Dispatch<AM>];
+  const [state, dispatch]: SagaResult = useSagaReducer(saga, reducer, initialState);
+  const put = useMemo(
+    () => typedActionMapFactory(labels, dispatch), [dispatch, labels]
+  );
+  return [state, put] as UseFactoryReturn<ST, TypedActionMap<AM, PT>>;
+};
 ```
 
 Creates a `state` and a `put` function.
@@ -155,11 +167,34 @@ Creates a `state` and a `put` function.
 - `labels`: An object where the keys are the action types and the values are the action type strings.
 - `saga`: A redux-saga generator function.
 
-Returns an array with the `state` and the `put` function.
+Returns an array with the `state` and the `put` function exactly same as in `useStateFactory`.
+
+### `typedPutActionMapFactory`
+
+```ts
+export function typedPutActionMapFactory<
+  AM extends ActionType<any>
+>(
+  labels: Labels<AM>
+): TypedGeneratorMap<AM, Labels<AM>> {
+  return Object.keys(labels).reduce((acc, type) => ({
+    ...acc,
+    [type]: function * putGenerator(payload: any) {
+      yield put({ type, payload });
+    }
+  }), {} as TypedGeneratorMap<AM, Labels<AM>>);
+}
+```
+
+Creates `put` function for saga use.
+
+- `labels`: An object where the keys are the action types and the values are the action type strings.
 
 ## Discuss
 
 [Simplify your React state management with react-state-factory on dev.to](https://dev.to/pengeszikra/simplify-your-react-state-management-with-react-state-factory-4a14)
+
+[0.0.8 -> 0.0.9 development note](https://dev.to/pengeszikra/typescript-challenge-1ag7)
 
 ## Contribution
 

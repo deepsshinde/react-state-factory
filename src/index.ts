@@ -12,63 +12,74 @@ export type Labels<AM extends Record<string, any>> = {
   [K in AM['type']]: K
 }
 
-export type TypedActionMap<EnumType extends Record<string, string>, UnionType> = {
-  [T in keyof EnumType]: 
-    (payload: Extract<ActionType<UnionType>, { type: T }>["payload"]) 
+export type TypedActionMap<
+  AM extends ActionType<any>, 
+  EM extends Labels<AM>
+> = {
+  [T in keyof EM]: 
+    (payload: Extract<ActionType<AM>, { type: T }>["payload"]) 
     => void;
 };
 
-export type TypedGeneratorMap<EnumType extends Record<string, string>, UnionType> = {
-  [T in EnumType[keyof EnumType]]: 
-    (payload: Extract<ActionType<UnionType>, { type: T }>["payload"]) 
+export type TypedGeneratorMap<
+  AM extends ActionType<any>, 
+  EM extends Labels<AM>
+> = {
+  [T in EM[keyof EM]]: 
+    (payload: Extract<ActionType<AM>, { type: T }>["payload"]) 
     => Generator;
 };
 
 export function typedActionMapFactory<
-  EM extends Record<string, string>, 
-  AM
->(keys: EM, dispatch: Dispatch<AM>): TypedActionMap<EM, AM> {
+  AM extends ActionType<any>
+>(
+  keys: Labels<AM>, 
+  dispatch: Dispatch<AM>
+): TypedActionMap<AM,Labels<AM>> {
   return Object.keys(keys).reduce((acc, type) => ({
     ...acc,
-    [type]: (payload: unknown) => {
+    [type]: (payload: any) => {
       dispatch({ type, payload } as AM);
     }
-  }), {} as TypedActionMap<EM, AM>);
+  }), {} as TypedActionMap<AM, Labels<AM>>);
 }
 
 export function typedPutActionMapFactory<
-  EM extends Record<string, string>, 
-  AM
->(keys: EM): TypedGeneratorMap<EM, AM> {
-  return Object.keys(keys).reduce((acc, type) => ({
+  AM extends ActionType<any>
+>(
+  labels: Labels<AM>
+): TypedGeneratorMap<AM, Labels<AM>> {
+  return Object.keys(labels).reduce((acc, type) => ({
     ...acc,
-    [type]: function* putGenerator(payload: unknown) {
+    [type]: function * putGenerator(payload: any) {
       yield put({ type, payload });
     }
-  }), {} as TypedGeneratorMap<EM, AM>);
+  }), {} as TypedGeneratorMap<AM, Labels<AM>>);
 }
 
 export type UseFactoryReturn<ST, Put> = [state: ST, put: Put];
 
 export const useStateFactory = <
-  AM, 
+  AM extends ActionType<any>, 
   ST,
-  PT extends Record<string, string>,
+  PT extends Labels<AM>,
 >(
   reducer: (st: ST, action: AM) => ST,
   initialState: ST,
   labels: PT,
 )  => {
-  type SagaResult = [state: ST, dispatch: Dispatch<AM>];
-  const [state, dispatch]: SagaResult = useReducer(reducer, initialState);
-  const put = useMemo(() => typedActionMapFactory(labels, dispatch), [dispatch, labels]);
-  return [state, put] as UseFactoryReturn<ST, TypedActionMap<PT, AM>>;
+  type FactoryResult = [state: ST, dispatch: Dispatch<AM>];
+  const [state, dispatch]: FactoryResult = useReducer(reducer, initialState);
+  const put = useMemo(
+    () => typedActionMapFactory(labels, dispatch), [dispatch, labels]
+  );
+  return [state, put] as UseFactoryReturn<ST, TypedActionMap<AM, PT>>;
 };
 
 export const useSagaFactory = <
-  AM, 
+  AM extends ActionType<any>, 
   ST,
-  PT extends Record<string, string>,
+  PT extends Labels<AM>,
 >(
   reducer: (st: ST, action: AM) => ST,
   initialState: ST,
@@ -77,6 +88,8 @@ export const useSagaFactory = <
 )  => {
   type SagaResult = [state: ST, dispatch: Dispatch<AM>];
   const [state, dispatch]: SagaResult = useSagaReducer(saga, reducer, initialState);
-  const put = useMemo(() => typedActionMapFactory(labels, dispatch), [dispatch, labels]);
-  return [state, put] as UseFactoryReturn<ST, TypedActionMap<PT, AM>>;
+  const put = useMemo(
+    () => typedActionMapFactory(labels, dispatch), [dispatch, labels]
+  );
+  return [state, put] as UseFactoryReturn<ST, TypedActionMap<AM, PT>>;
 };
