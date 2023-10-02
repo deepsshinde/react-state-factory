@@ -1,6 +1,6 @@
 import { Dispatch, useMemo, useReducer } from "react";
 import { Saga } from "redux-saga";
-import { put } from "redux-saga/effects";
+import { put, CallEffect, SelectEffect } from "redux-saga/effects";
 import useSagaReducer from "use-saga-reducer";
 
 
@@ -21,15 +21,6 @@ export type TypedActionMap<
     => void;
 };
 
-export type TypedGeneratorMap<
-  AM extends ActionType<any>, 
-  EM extends Labels<AM>
-> = {
-  [T in EM[keyof EM]]: 
-    (payload: Extract<ActionType<AM>, { type: T }>["payload"]) 
-    => Generator;
-};
-
 export function typedActionMapFactory<
   AM extends ActionType<any>
 >(
@@ -48,13 +39,11 @@ export function typedPutActionMapFactory<
   AM extends ActionType<any>
 >(
   labels: Labels<AM>
-): TypedGeneratorMap<AM, Labels<AM>> {
+): TypedActionMap<AM, Labels<AM>> {
   return Object.keys(labels).reduce((acc, type) => ({
     ...acc,
-    [type]: function * putGenerator(payload: any) {
-      yield put({ type, payload });
-    }
-  }), {} as TypedGeneratorMap<AM, Labels<AM>>);
+    [type]: (payload: any) => put({ type, payload })
+  }), {} as TypedActionMap<AM, Labels<AM>>);
 }
 
 export type UseFactoryReturn<ST, Put> = [state: ST, put: Put];
@@ -76,6 +65,8 @@ export const useStateFactory = <
   return [state, put] as UseFactoryReturn<ST, TypedActionMap<AM, PT>>;
 };
 
+export type GeneratorSaga<ST> = () => Generator<void | CallEffect<true> | SelectEffect, void, ST>;
+
 export const useSagaFactory = <
   AM extends ActionType<any>, 
   ST,
@@ -84,10 +75,10 @@ export const useSagaFactory = <
   reducer: (st: ST, action: AM) => ST,
   initialState: ST,
   labels: PT,
-  saga: Saga,
+  saga: GeneratorSaga<ST>
 )  => {
   type SagaResult = [state: ST, dispatch: Dispatch<AM>];
-  const [state, dispatch]: SagaResult = useSagaReducer(saga, reducer, initialState);
+  const [state, dispatch]: SagaResult = useSagaReducer(saga as any as Saga, reducer, initialState);
   const put = useMemo(
     () => typedActionMapFactory(labels, dispatch), [dispatch, labels]
   );
