@@ -3,11 +3,26 @@ import { Saga } from "redux-saga";
 import { put, CallEffect, SelectEffect } from "redux-saga/effects";
 import useSagaReducer from "use-saga-reducer";
 
-
+/**
+ * react-state-factory use actions in
+ * { type: string, payload: any } format
+ */
 export type ActionType<T> = T extends { type: infer U, payload: infer P } 
   ? { type: U, payload: P } 
   : never;
 
+/**
+ * Labes use for automatic create labels by user created ActionsMaper type
+ * which looks like
+ * ```ts
+ * export type ActionsMap = 
+ *  | { type: "FOO_ACTION", payload: string }
+ *  | { type: "ADD_ITEM", payload: Item }
+ *  | { type: "REMOVE_ITEM", payload: ItemId }
+ * 
+ * export const label:Labels<ActionsMap> = {}
+ * ```
+ */
 export type Labels<AM extends Record<string, any>> = {
   [K in AM['type']]: K
 }
