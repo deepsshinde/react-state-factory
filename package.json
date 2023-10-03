@@ -1,6 +1,6 @@
 {
   "name": "react-state-factory",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "react minimal typesafe state handling even with saga",
   "author": "Peter Vivo <vivo.peter@protonmail.com>",
   "license": "MIT",
@@ -8,6 +8,21 @@
   "module": "dist/react-state-factory.es.js",
   "types": "dist/index.d.ts",
   "umd:module": "dist/react-state-factory.umd.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pengeszikra/react-state-factory"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "typescript",
+    "react",
+    "state management",
+    "useReducer",
+    "useSagaReducer",
+    "redux-saga"
+  ],
   "scripts": {
     "build": "tsc && vite build",
     "prepublishOnly": "tsc && vite build",
