@@ -1,6 +1,6 @@
-import { Dispatch, useMemo, useReducer } from "react";
-import { Saga } from "redux-saga";
-import { put, CallEffect, SelectEffect } from "redux-saga/effects";
+import { useMemo, useReducer, type Dispatch } from "react";
+import { type Saga } from "redux-saga";
+import { put, type CallEffect, type SelectEffect } from "redux-saga/effects";
 import useSagaReducer from "use-saga-reducer";
 
 /**
